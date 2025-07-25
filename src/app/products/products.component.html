@@ -1,0 +1,172 @@
+<div class="font-outfit">
+<section class="px-4 py-6">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">🍽️ All Available Dishes</h2>
+
+  <!-- Scroll Wrapper -->
+  <div class="flex-1 overflow-y-auto pr-2 max-h-[80vh] custom-scroll">
+    
+    <!-- Dishes Grid -->
+ <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 pb-6">
+  <div
+    *ngFor="let dish of allDishes"
+    (click)="onSelectDish(dish)"
+    class="cursor-pointer bg-white hover:shadow-xl transition rounded-2xl border border-gray-100 hover:border-orange-400 p-6 flex flex-col text-left space-y-3 relative w-full"
+    [ngClass]="selectedDish?.id === dish.id ? 'border-orange-400 shadow-lg' : ''"
+  >
+    <!-- Dish Image -->
+    <div class="w-full h-48 bg-gray-50 rounded-xl flex items-center justify-center overflow-hidden">
+      <img
+        [src]="dish.images[0]"
+        alt="{{ dish.name }}"
+        class="object-cover h-full w-full transition-transform duration-300 hover:scale-105"
+      />
+    </div>
+
+    <!-- Dish Info -->
+    <div class="space-y-1">
+      <h3 class="text-lg font-semibold text-gray-800 truncate">{{ dish.name }}</h3>
+
+      <div class="text-sm text-gray-600 flex justify-between">
+        <span>₹{{ dish.price }}</span>
+        <span
+          class="font-medium"
+          [ngClass]="dish.available ? 'text-green-600' : 'text-red-500'"
+        >
+          {{ dish.available ? 'Available' : 'Not Available' }}
+        </span>
+      </div>
+
+      <div class="flex gap-2 flex-wrap mt-1">
+        <span
+          class="px-2 py-0.5 rounded-full text-white text-[10px]"
+          [ngClass]="dish.vegetarian ? 'bg-green-600' : 'bg-red-600'"
+        >
+          {{ dish.vegetarian ? 'VEG' : 'NON-VEG' }}
+        </span>
+        <span
+          *ngIf="dish.seasonal"
+          class="px-2 py-0.5 rounded-full bg-yellow-500 text-white text-[10px]"
+        >
+          Seasonal
+        </span>
+      </div>
+
+      <p class="text-xs text-gray-500 line-clamp-2">
+        {{ dish.description }}
+      </p>
+    </div>
+
+    <div class="text-[10px] text-gray-400">
+      Created: {{ dish.creationDate | date: 'mediumDate' }}
+    </div>
+
+    <!-- Add to Cart Button -->
+    <button
+      (click)="addToCart(dish); $event.stopPropagation()"
+      [disabled]="!dish.available"
+      class="mt-auto w-full bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+      [title]="!dish.available ? 'This item is currently unavailable' : 'Add to cart'"
+    >
+      <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+    </button>
+  </div>
+</div>
+
+
+    <!-- Restaurant Detail Section -->
+    <div
+      *ngIf="selectedRestaurant as restaurant"
+      class="bg-white p-6 rounded-2xl shadow-md mt-10 max-w-3xl mx-auto space-y-6"
+      id="restaurantDetail"
+    >
+      <!-- Restaurant Image -->
+      <div class="w-full">
+        <img
+          [src]="restaurant.image"
+          alt="{{ restaurant.name }}"
+          class="w-full h-56 object-cover rounded-xl shadow border"
+        />
+      </div>
+
+      <!-- Name & Description -->
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800">{{ restaurant.name }}</h2>
+        <p class="text-sm text-gray-500 mt-1">{{ restaurant.description }}</p>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="grid sm:grid-cols-2 gap-4 text-sm text-gray-700">
+        <div><strong>📍 Address:</strong> {{ restaurant.address }}</div>
+        <div><strong>🍴 Cuisine:</strong> {{ restaurant.cuisine }}</div>
+        <div><strong>🕒 Hours:</strong> {{ restaurant.openingTime }} - {{ restaurant.closingTime }}</div>
+        <div><strong>👤 Owner ID:</strong> {{ restaurant.ownerId }}</div>
+        <div>
+          <strong>Status:</strong>
+          <span
+            [ngClass]="isOpen(restaurant.openingTime, restaurant.closingTime) ? 'text-green-600' : 'text-red-500'"
+          >
+            {{ isOpen(restaurant.openingTime, restaurant.closingTime) ? '✅ Open Now' : '❌ Closed' }}
+          </span>
+        </div>
+        <div class="text-gray-500">
+          🗓️ <strong>Registered:</strong>
+          {{ restaurant.registrationDate | date: 'longDate' }}
+        </div>
+      </div>
+
+      <!-- Social Icons -->
+      <div class="flex justify-center gap-5 text-xl text-gray-500 mt-2">
+        <a
+          *ngIf="restaurant.social?.facebook"
+          [href]="restaurant.social.facebook"
+          target="_blank"
+          aria-label="Facebook"
+          class="hover:text-blue-600"
+        >
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a
+          *ngIf="restaurant.social?.instagram"
+          [href]="restaurant.social.instagram"
+          target="_blank"
+          aria-label="Instagram"
+          class="hover:text-pink-600"
+        >
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a
+          *ngIf="restaurant.social?.twitter"
+          [href]="restaurant.social.twitter"
+          target="_blank"
+          aria-label="Twitter"
+          class="hover:text-sky-500"
+        >
+          <i class="fab fa-twitter"></i>
+        </a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-center gap-4 mt-6">
+        <button
+          class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-6 py-2 rounded-lg shadow"
+          [routerLink]="['/restaurant', restaurant.name]"
+        >
+          🍽️ View Restaurant Page
+        </button>
+
+        <button
+          class="bg-red-100 hover:bg-red-200 text-red-700 text-sm font-medium px-4 py-2 rounded-lg border border-red-300"
+          (click)="clearSelection()"
+        >
+          ✖️ Clear Selection
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+
+<app-footer></app-footer>
+
+

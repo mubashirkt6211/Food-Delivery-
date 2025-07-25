@@ -1,0 +1,75 @@
+<div class="font-outfit">
+<div class="p-6 bg-gray-50 min-h-screen">
+  <h2 class="text-3xl font-bold text-gray-800 mb-6">Your Order History</h2>
+
+  <!-- No orders message -->
+  <div *ngIf="orders.length === 0" class="text-gray-500 text-lg">
+    <i class="fas fa-info-circle mr-2"></i> You haven't placed any orders yet.
+  </div>
+
+  <!-- Orders List -->
+  <div *ngFor="let order of orders" class="bg-white border-l-4 border-green-500 shadow-md rounded-xl p-5 mb-6">
+    <div class="flex justify-between items-center mb-3">
+      <div>
+        <h3 class="text-xl font-semibold text-gray-800">Order #{{ order.id }}</h3>
+        <p class="text-sm text-gray-500">Placed on {{ order.createdAt | date: 'mediumDate' }}</p>
+      </div>
+
+      <!-- Order Status -->
+      <span 
+        class="px-3 py-1 rounded-full text-sm font-medium"
+        [ngClass]="{
+          'bg-yellow-100 text-yellow-800': order.orderStatus === 'PENDING',
+          'bg-green-100 text-green-800': order.orderStatus === 'DELIVERED',
+          'bg-red-100 text-red-800': order.orderStatus === 'CANCELLED'
+        }"
+      >
+        {{ order.orderStatus }}
+      </span>
+    </div>
+
+    <!-- Dish Items -->
+    <div class="mt-4">
+      <h4 class="font-semibold text-gray-700 mb-2">Items Ordered:</h4>
+      <ul *ngIf="order.items.length > 0; else noItems" class="space-y-1 pl-4 text-gray-600 list-disc">
+      <li *ngFor="let item of order.items">
+  {{ item.food.name }} × {{ item.quantity }}
+</li>
+
+
+
+      </ul>
+      <ng-template #noItems>
+        <p class="text-gray-500 italic">No dishes in this order.</p>
+      </ng-template>
+    </div>
+
+    <!-- Delivery Address -->
+    <div class="mt-4 text-sm text-gray-600">
+      <p>
+        <strong>Delivery Address:</strong>
+        {{ order.deliveryAddress.street }},
+        {{ order.deliveryAddress.city }},
+        {{ order.deliveryAddress.state }}
+      </p>
+    </div>
+
+    <!-- Totals -->
+    <div class="mt-4 flex justify-between items-center text-gray-700 font-semibold">
+      <p>Total Items: {{ order.totalItem }}</p>
+      <p>Total Price: ₹{{ order.totalPrice }}</p>
+    </div>
+
+    <!-- Cancel Button -->
+    <div *ngIf="order.orderStatus === 'PENDING'" class="mt-4 text-right">
+      <button
+        class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-2 px-4 rounded shadow"
+        (click)="cancelOrder(order.id)"
+      >
+        Cancel Order
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+

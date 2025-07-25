@@ -1,0 +1,56 @@
+<div class="p-6 max-w-xl mx-auto space-y-6">
+  <h2 class="text-2xl font-bold text-gray-800">🥗 Manage Ingredients</h2>
+
+  <!-- 🌿 Add Ingredient Category -->
+  <div class="space-y-2">
+    <h3 class="text-lg font-semibold text-gray-700">➕ Add Ingredient Category</h3>
+    
+    <input
+      type="text"
+      [(ngModel)]="categoryName"
+      name="categoryName"
+      placeholder="e.g., Toppings, Sauces"
+      class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
+    />
+    
+    <button
+      (click)="addCategory()"
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
+      [disabled]="!categoryName.trim()"
+    >
+      Add Category
+    </button>
+  </div>
+
+  <!-- 🍅 Add Ingredient -->
+  <div class="space-y-2 pt-6">
+    <h3 class="text-lg font-semibold text-gray-700">➕ Add Ingredient</h3>
+
+    <select
+      [(ngModel)]="selectedCategoryId"
+      name="categoryId"
+      class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-green-300"
+    >
+      <option [ngValue]="null" disabled selected>-- Select Category --</option>
+      <option *ngFor="let cat of categories" [ngValue]="cat.id">
+        {{ cat.name }}
+      </option>
+    </select>
+
+    <input
+      type="text"
+      [(ngModel)]="ingredientName"
+      name="ingredientName"
+      placeholder="e.g., Cheese, Lettuce, Mayo"
+      class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-green-300"
+    />
+
+    <button
+      (click)="addIngredient()"
+      class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition disabled:opacity-50"
+      [disabled]="!ingredientName.trim() || !selectedCategoryId"
+    >
+      Add Ingredient
+    </button>
+  </div>
+</div>

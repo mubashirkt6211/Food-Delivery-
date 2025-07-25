@@ -1,0 +1,14 @@
+<div class="font-outfit">
+<app-left-sidebar
+  [isLeftSidebarCollapsed]="isLeftSidebarCollapsed()"
+  (changeIsLeftSidebarCollapsed)="changeIsLeftSidebarCollapsed($event)">
+</app-left-sidebar>
+
+<app-main
+  [isLeftSidebarCollapsed]="isLeftSidebarCollapsed()"
+  [screenWidth]="screenWidth()">
+</app-main>
+
+<router-outlet></router-outlet>
+</div>
+

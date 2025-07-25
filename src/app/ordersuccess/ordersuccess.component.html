@@ -1,0 +1,43 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-orange-100 px-4 py-10">
+  <div class="w-full max-w-2xl bg-white rounded-3xl shadow-xl border border-orange-200 p-8 text-center space-y-6 hover:shadow-orange-300 hover:-translate-y-1 transition-all duration-300">
+
+    <!-- Cooking Image -->
+    <img 
+      src="https://i.pinimg.com/736x/d0/24/88/d0248804ef18e8ce3f8e830f87ec9b09.jpg" 
+      alt="Cooking Illustration" 
+      class="w-44 max-w-sm mx-auto rounded-xl object-cover shadow-md border-4 border-orange-100"
+    />
+
+    <!-- Bouncing Check Icon -->
+    <div class="w-20 h-20 mx-auto bg-orange-100 text-orange-600 rounded-full flex items-center justify-center shadow-md animate-bounce-slow">
+      <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2l4 -4M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10 -4.48 10 -10 10z"/>
+      </svg>
+    </div>
+
+    <!-- Heading -->
+    <h2 class="text-4xl font-extrabold text-orange-600">
+      Order Confirmed! 🎉
+    </h2>
+
+    <!-- Message -->
+    <p class="text-gray-700 text-lg leading-relaxed">
+      Your delicious meal is on its way!<br/>
+      It’s being prepared <span class="text-orange-500 font-semibold">fresh and hot</span> by our top chefs. 🍽️
+    </p>
+
+    <!-- Order ID and Button -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+      <span class="bg-gray-100 px-4 py-2 rounded-full text-sm text-gray-800 font-medium shadow-sm">
+        Order ID: <span class="text-black font-semibold">1452</span>
+      </span>
+
+      <a 
+        routerLink="/user/dashboard"
+        class="bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-400 transition text-white px-6 py-2 rounded-full text-sm font-semibold shadow-md"
+      >
+        Go to Homepage
+      </a>
+    </div>
+  </div>
+</div>

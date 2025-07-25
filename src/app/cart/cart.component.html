@@ -1,0 +1,122 @@
+<div class="font-outfit">
+<div *ngIf="cartItems && cartItems.length > 0; else emptyCart" class="space-y-4">
+  <!-- Cart Header -->
+  <div class="flex flex-col">
+    <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+      <i class="fas fa-shopping-cart text-black-500"></i>
+      Your Cart
+    </h3>
+    <p class="text-gray-600 text-sm">
+      {{ cartItems.length }} item{{ cartItems.length !== 1 ? 's' : '' }} ({{ getTotalQuantity() }} total)
+    </p>
+  </div>
+
+  <!-- Cart Items -->
+  <div *ngFor="let item of cartItems" class="flex items-center gap-4 p-4 bg-white shadow rounded-lg border">
+    <!-- Item Image -->
+    <img
+      [src]="item.food.images[0] || 'https://via.placeholder.com/56'"
+      [alt]="item.food.name"
+      class="w-16 h-16 rounded object-cover border"
+    />
+
+    <!-- Item Info -->
+    <div class="flex-1">
+      <p class="font-medium text-gray-800">{{ item.food.name }}</p>
+      <p class="text-xs text-gray-500 italic mt-0.5">
+        From: {{ item.food.restaurant.name || 'Unknown Restaurant' }}
+      </p>
+
+      <!-- Quantity Controls -->
+      <div class="flex items-center gap-2 mt-2">
+        <button
+          (click)="decreaseQty(item)"
+          class="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-700"
+        >
+          <i class="fas fa-minus"></i>
+        </button>
+        <span class="text-sm font-semibold text-gray-800">{{ item.quantity }}</span>
+        <button
+          (click)="increaseQty(item)"
+          class="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-700"
+        >
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Item Price and Remove -->
+    <div class="text-right space-y-2">
+      <p class="font-semibold text-gray-700 whitespace-nowrap">
+        ₹{{ item.food.price * item.quantity }}
+      </p>
+      <button
+        (click)="removeItem(item.id, item.food.name)"
+        class="px-3 py-1 text-xs font-medium text-red-600 border border-red-200 rounded hover:bg-red-50 hover:text-red-700 transition"
+      >
+        <i class="fas fa-trash-alt mr-1"></i> Remove
+      </button>
+    </div>
+  </div>
+
+  <!-- Totals -->
+  <div class="bg-gray-50 rounded-lg p-4 shadow space-y-2 text-sm">
+    <div class="flex justify-between">
+      <span class="text-gray-600"><i class="fas fa-receipt mr-1"></i>Subtotal</span>
+      <span class="text-gray-800 font-medium">₹{{ getSubtotal() }}</span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-gray-600"><i class="fas fa-percent mr-1"></i>GST (5%)</span>
+      <span class="text-gray-800 font-medium">₹{{ getGST() | number: '1.2-2' }}</span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-gray-600"><i class="fas fa-truck mr-1"></i>Delivery</span>
+      <span class="text-gray-800 font-medium">₹{{ deliveryCharge }}</span>
+    </div>
+    <div class="flex justify-between border-t pt-2 font-semibold text-gray-800 text-base">
+      <span><i class="fas fa-wallet mr-1"></i>Total</span>
+      <span>₹{{ getTotal() | number: '1.2-2' }}</span>
+    </div>
+  </div>
+
+  <!-- Checkout Button -->
+  <button
+    (click)="onCheckout()"
+    class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded shadow flex items-center justify-center"
+  >
+    <i class="fas fa-check-circle mr-2"></i> Place Order
+  </button>
+</div>
+
+<!-- Empty Cart Message -->
+<ng-template #emptyCart>
+<div class="max-w-sm mx-auto p-8 bg-white rounded-2xl shadow-md text-center">
+  <!-- Illustration -->
+  <img
+    src="https://i.pinimg.com/1200x/0a/ec/3c/0aec3cad607f8b0777bd8dba5f7475b8.jpg"
+    alt="Empty Cart"
+    class="w-32 h-32 mx-auto mb-6"
+  />
+
+  <!-- Heading -->
+  <h2 class="text-2xl font-bold text-gray-800 mb-2">Your Cart is Empty</h2>
+
+  <!-- Description -->
+  <p class="text-gray-400 text-sm mb-6">
+    Looks like you haven’t added anything yet. Start exploring and add items to your cart!
+  </p>
+
+  <!-- 🆕 Button -->
+  <button
+    class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition"
+    (click)="goToFoodPage()"
+  >
+    Explore Dishes
+  </button>
+</div>
+
+
+
+
+</ng-template>
+</div>

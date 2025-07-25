@@ -1,0 +1,100 @@
+/* 1. Import Google Fonts first */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+/* 2. Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. Global CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  font-family: "Outfit", sans-serif;
+  background: #f4f7fa;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* 🎨 Toast container style */
+.white-theme-toast {
+  background-color: #ffffff !important;
+  color: #1f2937 !important; /* text-gray-800 */
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  font-family: 'Outfit', sans-serif;
+  padding: 14px 18px !important;
+  border-left: 5px solid #f97316;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: slideInFade 0.4s ease-out forwards;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+/* 🎯 Slide + Fade-in animation */
+@keyframes slideInFade {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ✅ Title */
+.white-theme-toast .toast-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #111827;
+}
+
+/* ✅ Message */
+.white-theme-toast .toast-message {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.4;
+}
+
+/* ❌ Close button */
+.white-theme-toast .toast-close-button {
+  color: #9ca3af !important;
+  font-weight: 500;
+  font-size: 16px;
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.white-theme-toast .toast-close-button:hover {
+  color: #111827 !important;
+}
+
+/* 📊 Progress bar */
+.white-theme-toast .toast-progress {
+  background-color: #eaebea !important; /* green-500 */
+  height: 4px;
+  border-radius: 999px;
+  margin-top: 6px;
+  animation: progressBar 5s linear forwards;
+}
+
+/* 📈 Optional progress animation */
+@keyframes progressBar {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}

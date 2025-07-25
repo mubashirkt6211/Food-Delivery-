@@ -1,0 +1,82 @@
+<!-- Header -->
+ <div class="font-outfit">
+<header class="flex flex-wrap justify-between items-center gap-4 px-4 py-4 sm:px-6 relative">
+  <!-- Greeting -->
+  <h2 class="text-xl font-bold whitespace-nowrap text-gray-800">
+    Hello, {{ userName }} 👋
+  </h2>
+
+  <!-- Search Box -->
+  <div class="relative w-full sm:max-w-sm md:max-w-md lg:w-80">
+    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+   <input
+  type="text"
+  [(ngModel)]="searchKeyword"
+  (input)="searchRestaurants()"
+  (blur)="hideDropdownLater()"
+  placeholder="Search for food, restaurants..."
+  class="w-full py-2 pl-10 pr-4 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+/>
+
+    <!-- 🔽 Dropdown -->
+    <ul
+      *ngIf="showDropdown && searchResults.length"
+      class="absolute z-50 top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+    >
+      <li
+        *ngFor="let r of searchResults"
+        (click)="goToRestaurant(r.name)"
+        class="px-4 py-2 hover:bg-orange-100 cursor-pointer"
+      >
+        <i class="fas fa-store text-orange-500 mr-2"></i> {{ r.name }}
+        <span class="block text-xs text-gray-500">
+          {{ r.address?.street }}, {{ r.address?.city }}
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  
+</header>
+
+
+
+
+
+<!-- Hero Section -->
+<section
+  class="px-6 py-10 md:px-16 flex flex-col-reverse md:flex-row items-center gap-10 bg-gradient-to-br from-orange-100 via-white to-orange-50 rounded-3xl shadow-lg mt-6 overflow-hidden relative"
+>
+  <!-- Text Content -->
+  <div class="flex-1 text-center md:text-left space-y-5 z-10">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
+      Delicious Meals, <span class="text-orange-500">Delivered Fast</span> 🚀
+    </h1>
+    <p class="text-gray-600 text-base sm:text-lg max-w-lg mx-auto md:mx-0">
+      Craving something amazing? Browse through top-rated restaurants near you and get your favorites delivered in minutes.
+    </p>
+    <button
+      class="bg-orange-500 hover:bg-orange-600 text-white text-base px-6 py-3 rounded-full font-semibold shadow-lg transition duration-300 hover:scale-105 flex items-center gap-2"
+    >
+      <i class="fas fa-hamburger"></i> Order Now
+    </button>
+  </div>
+
+  <!-- Hero Image -->
+  <div class="flex-1 flex justify-center z-10 relative">
+    <img
+      src="assets/home.png"
+      alt="Delicious Food"
+      class="w-48 sm:w-56 md:w-72 opacity-90 transition duration-300 hover:opacity-100"
+    />
+  </div>
+</section>
+
+<!-- Sections -->
+<app-category></app-category>
+<app-offer></app-offer>
+
+<!-- Footer -->
+<app-footer></app-footer>
+ </div>
+

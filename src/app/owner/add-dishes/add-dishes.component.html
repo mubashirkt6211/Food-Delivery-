@@ -1,0 +1,191 @@
+<!-- Dish Creation Panel -->
+<div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg mt-10">
+  <h2 class="text-2xl font-bold text-orange-600 mb-6 flex items-center gap-2">
+    <i class="fas fa-utensils"></i> Add New Dish
+  </h2>
+
+  <form class="space-y-5">
+    <!-- Dish Name -->
+    <div>
+      <label for="dishName" class="block text-sm font-medium text-gray-700 mb-1">Dish Name</label>
+      <input
+        id="dishName"
+        name="name"
+        [(ngModel)]="newDish.name"
+        placeholder="e.g. Spicy Paneer Tikka"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+      />
+    </div>
+
+    <!-- Description -->
+    <div>
+      <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="newDish.description"
+        rows="3"
+        placeholder="Write a short description..."
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+      ></textarea>
+    </div>
+
+    <!-- Price -->
+    <div>
+      <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
+      <input
+        id="price"
+        name="price"
+        type="number"
+        [(ngModel)]="newDish.price"
+        placeholder="e.g. 199"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+      />
+    </div>
+
+    <!-- Image -->
+    <div>
+      <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+      <input
+        id="image"
+        name="image"
+        [(ngModel)]="newDish.image"
+        placeholder="https://your-image-link.jpg"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+      />
+    </div>
+
+    <!-- Category Dropdown + Add -->
+    <div>
+      <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+      <div class="flex items-center gap-2">
+        <select
+          id="category"
+          name="category"
+          [(ngModel)]="categoryId"
+          class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+        >
+          <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+        </select>
+        <button
+          type="button"
+          (click)="toggleCategoryForm()"
+          class="px-3 py-2 bg-orange-500 text-white text-sm rounded-lg hover:bg-orange-600"
+        >
+          <i class="fas fa-plus"></i> Add
+        </button>
+      </div>
+    </div>
+
+    <!-- Toggles -->
+    <div class="flex gap-6 pt-2">
+      <label class="flex items-center text-sm text-gray-700 gap-2">
+        <input type="checkbox" [(ngModel)]="newDish.vegetarian" name="vegetarian" class="accent-orange-500" />
+        Vegetarian
+      </label>
+      <label class="flex items-center text-sm text-gray-700 gap-2">
+        <input type="checkbox" [(ngModel)]="newDish.seasonal" name="seasonal" class="accent-orange-500" />
+        Seasonal
+      </label>
+    </div>
+
+    <!-- Submit -->
+    <button
+      type="button"
+      (click)="addDish()"
+      class="w-full bg-orange-600 text-white text-sm font-medium py-2 rounded-lg hover:bg-orange-700"
+    >
+      <i class="fas fa-plus-circle mr-2"></i> Add Dish
+    </button>
+  </form>
+
+  <!-- Optional Add Category Form -->
+  <div *ngIf="showAddCategoryForm" class="mt-6 border-t pt-4">
+    <app-owner-add-category (categoryAdded)="handleNewCategory()"></app-owner-add-category>
+  </div>
+</div>
+
+<!-- Dish List Section -->
+<div class="mt-12 px-6">
+  <h2 class="text-2xl font-bold text-orange-600 mb-6 flex items-center gap-2">🍽️ Added Dishes</h2>
+
+  <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 pb-6">
+    <div
+      *ngFor="let dish of dishes"
+      class="cursor-pointer bg-white hover:shadow-xl transition rounded-2xl border border-gray-100 hover:border-orange-400 p-4 flex flex-col items-center text-center space-y-3 relative"
+    >
+      <!-- Dish Image -->
+      <div class="w-full h-40 bg-white flex items-center justify-center">
+        <img
+          [src]="dish.images || 'https://via.placeholder.com/100x100?text=Dish'"
+          [alt]="dish.name"
+          class="max-h-full object-contain"
+        />
+      </div>
+
+      <!-- Dish Name -->
+      <h3 class="text-sm font-bold text-gray-800 truncate w-full">
+        {{ dish.name }}
+      </h3>
+
+      <!-- Price -->
+      <div class="flex justify-between items-center text-xs text-gray-600 w-full">
+        <span class="font-medium">₹{{ dish.price }}</span>
+      </div>
+
+      <!-- Availability Text -->
+      <div
+        class="text-xs font-medium w-full text-left"
+        [ngClass]="dish.available ? 'text-green-600' : 'text-red-500'"
+      >
+        {{ dish.available ? 'Available' : 'Not Available' }}
+      </div>
+
+      <!-- Tags (Veg / Seasonal) -->
+      <div class="flex flex-wrap gap-1 justify-start w-full">
+        <span
+          class="px-2 py-0.5 rounded-full text-white text-[10px]"
+          [ngClass]="dish.vegetarian ? 'bg-green-600' : 'bg-red-600'"
+        >
+          {{ dish.vegetarian ? 'VEG' : 'NON-VEG' }}
+        </span>
+        <span
+          *ngIf="dish.seasonal"
+          class="px-2 py-0.5 rounded-full bg-blue-500 text-white text-[10px]"
+        >
+          Seasonal
+        </span>
+      </div>
+
+      <!-- Description -->
+      <p class="text-xs text-gray-500 line-clamp-2 w-full text-left">
+        {{ dish.description }}
+      </p>
+
+      <!-- Buttons -->
+      <div class="flex gap-2 w-full pt-2">
+        <button
+          (click)="toggleAvailability(dish.id!)"
+          [ngClass]="dish.available ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 hover:bg-gray-500'"
+          class="w-1/2 text-white text-xs font-medium py-1.5 rounded-md transition"
+        >
+          {{ dish.available ? 'Available' : 'Unavailable' }}
+        </button>
+
+        <button
+          (click)="deleteDish(dish.id!)"
+          class="w-1/2 bg-red-500 hover:bg-red-600 text-white text-xs font-medium py-1.5 rounded-md transition"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

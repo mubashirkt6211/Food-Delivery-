@@ -1,0 +1,41 @@
+<!-- Browse Categories Section -->
+<section class="px-7 py-10 sm:px-6 md:px-10">
+  <!-- Header -->
+  <div class="mb-6 text-center sm:text-left">
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">🍽️ Browse Categories</h2>
+    <p class="text-gray-500 text-sm">Pick your favorite type of food</p>
+  </div>
+
+  <!-- Category Slider Wrapper -->
+  <div class="relative">
+    <!-- Arrow Buttons -->
+    <div class="absolute right-4 -top-10 flex gap-3 z-10">
+      <button (click)="scrollLeft()" class="bg-white shadow-md hover:bg-gray-100 transition p-2 rounded-full">
+        <i class="fas fa-chevron-left text-gray-600"></i>
+      </button>
+      <button (click)="scrollRight()" class="bg-white shadow-md hover:bg-gray-100 transition p-2 rounded-full">
+        <i class="fas fa-chevron-right text-gray-600"></i>
+      </button>
+    </div>
+
+    <!-- Scrollable Categories -->
+    <div
+      #scrollContainer
+      class="category-scroll-container flex gap-4 overflow-x-auto whitespace-nowrap py-4 px-1 scroll-smooth"
+    >
+      <div
+        *ngFor="let category of categories"
+        class="min-w-[100px] max-w-[100px] bg-white rounded-xl shadow hover:shadow-lg transition p-3 cursor-pointer border border-gray-100"
+        (click)="selectCategory(category)"
+      >
+        <img
+          [src]="category.icon"
+          alt="{{ category.name }}"
+          class="w-16 h-16 rounded mx-auto object-cover"
+        />
+        <p class="text-xs text-gray-700 font-medium mt-2 text-center truncate">{{ category.name }}</p>
+      </div>
+    </div>
+  </div>
+
+</section>

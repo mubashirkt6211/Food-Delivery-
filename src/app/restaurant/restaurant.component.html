@@ -1,0 +1,157 @@
+
+<div class="font-outfit">
+<section class="h-screen flex flex-col px-4 sm:px-6  pb-0">
+  <!-- Section Header -->
+  <h2 class="text-2xl font-bold text-gray-800 mb-4">
+    <i class="fas fa-utensils text-orange-500"></i> Restaurants
+  </h2>
+
+  <!-- Scrollable Restaurant Content -->
+  <div class="flex-1 overflow-y-auto pr-2 custom-scroll">
+    <div *ngFor="let restaurant of restaurants; let i = index" class="bg-white rounded-2xl shadow-lg mb-12 overflow-hidden">
+      <!-- Restaurant Header -->
+      <div class="flex flex-col md:flex-row">
+        <img
+          [src]="restaurant.images?.[0] || 'https://via.placeholder.com/300x200?text=No+Image'"
+          alt="{{ restaurant.name }}"
+          class="w-full md:w-64 h-48 md:h-64 object-cover bg-gray-100"
+          loading="lazy"
+        />
+
+        <div class="flex-1 p-6 flex flex-col justify-between">
+          <div class="space-y-2">
+            <!-- Top Info -->
+            <div class="flex justify-between items-start flex-wrap gap-2">
+              <div>
+                <h3 class="text-2xl font-semibold text-gray-900">
+                  <i class="fas fa-store text-orange-500 mr-1"></i> {{ restaurant.name }}
+                </h3>
+                <p class="text-sm text-gray-500 mt-0.5">
+                  <i class="fas fa-map-marker-alt mr-1 text-gray-400"></i>
+                  {{ restaurant.address?.street }}, {{ restaurant.address?.city }}, {{ restaurant.address?.state }}
+                </p>
+              </div>
+
+              <div class="flex flex-col items-end gap-2">
+                <div class="text-yellow-500 font-medium flex items-center gap-1 text-sm">
+                  <i class="fas fa-star"></i> 4.5 / 5
+                </div>
+                <button
+  (click)="addToFavorites(restaurant.id)"
+  class="flex items-center gap-1 text-sm px-3 py-1 rounded-full font-medium transition"
+  [ngClass]="isFavorite(restaurant.id)
+    ? 'bg-green-100 text-green-600 hover:bg-green-200'
+    : 'bg-red-100 text-red-600 hover:bg-red-200'">
+  <i [ngClass]="isFavorite(restaurant.id) ? 'fas fa-check-circle' : 'fas fa-heart'"></i>
+  {{ isFavorite(restaurant.id) ? 'Unfavorite' : 'Add to Favorites' }}
+</button>
+
+              </div>
+            </div>
+
+            <!-- Restaurant Details -->
+            <div class="text-sm text-gray-600 space-y-1">
+              <p><i class="fas fa-info-circle mr-1 text-gray-400"></i> <strong>About:</strong> {{ restaurant.description || 'N/A' }}</p>
+              <p><i class="fas fa-drumstick-bite mr-1 text-gray-400"></i> <strong>Cuisine:</strong> {{ restaurant.cuisineType || 'N/A' }}</p>
+             <p>
+  <i class="fas fa-door-open mr-1 text-gray-400"></i>
+  <strong>Status:</strong>
+ <span
+  class="px-2 py-0.5 rounded-full text-xs font-medium"
+  [ngClass]="{
+    'bg-green-100 text-green-700': isOpen(restaurant?.openingTime, restaurant?.closingTime),
+    'bg-red-100 text-red-600': !isOpen(restaurant?.openingTime, restaurant?.closingTime)
+  }"
+>
+  {{ isOpen(restaurant?.openingTime, restaurant?.closingTime) ? 'Open Now' : 'Closed' }}
+</span>
+
+</p>
+
+              <p><i class="fas fa-clock mr-1 text-gray-400"></i> <strong>Hours:</strong> {{ restaurant.openingHours || 'N/A' }}</p>
+              <p><i class="fas fa-truck mr-1 text-gray-400"></i> <strong>Delivery:</strong> {{ restaurant.contactInformation?.mobile || 'N/A' }}</p>
+              <p><i class="fas fa-user mr-1 text-gray-400"></i> <strong>Owner:</strong> {{ restaurant.owner?.fullName }}</p>
+              <p><i class="fas fa-calendar-check mr-1 text-gray-400"></i> <strong>Registered:</strong> {{ restaurant.registrationDate | date:'longDate' }}</p>
+            </div>
+
+            <!-- Social Media -->
+            <div class="flex gap-4 mt-2 text-gray-500 text-lg">
+              <a *ngIf="restaurant.contactInformation?.instagram" [href]="'https://instagram.com/' + restaurant.contactInformation.instagram?.replace('@','')" target="_blank" class="hover:text-pink-500"><i class="fab fa-instagram"></i></a>
+              <a *ngIf="restaurant.contactInformation?.twitter" [href]="'https://twitter.com/' + restaurant.contactInformation.twitter?.replace('@','')" target="_blank" class="hover:text-blue-400"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="mt-6 px-4">
+        <div class="flex gap-3 text-sm">
+          <button (click)="toggleFilter(restaurant, 'All')" [ngClass]="restaurant.filter === 'All' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700'" class="px-3 py-1 rounded-full">All</button>
+          <button (click)="toggleFilter(restaurant, 'Veg')" [ngClass]="restaurant.filter === 'Veg' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700'" class="px-3 py-1 rounded-full">Veg</button>
+          <button (click)="toggleFilter(restaurant, 'Non-Veg')" [ngClass]="restaurant.filter === 'Non-Veg' ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700'" class="px-3 py-1 rounded-full">Non-Veg</button>
+          <button (click)="toggleFilter(restaurant, 'Seasonal')" [ngClass]="restaurant.filter === 'Seasonal' ? 'bg-yellow-500 text-white' : 'bg-gray-200 text-gray-700'" class="px-3 py-1 rounded-full">Seasonal</button>
+        </div>
+      </div>
+
+      <!-- Dishes -->
+      <div class="relative mt-6 px-4">
+        <h4 class="text-lg font-semibold mb-3 text-gray-800">🍲 Dishes from {{ restaurant.name }}</h4>
+
+        <button (click)="scrollLeft(i)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow hover:bg-gray-100"><i class="fas fa-chevron-left text-gray-600"></i></button>
+
+        <div class="flex gap-4 overflow-x-auto scroll-smooth pb-4" [id]="'dishScroll' + i">
+          <div *ngFor="let dish of getFilteredDishes(restaurant)" class="min-w-[200px] bg-white hover:shadow-xl transition rounded-2xl border border-gray-100 hover:border-orange-400 p-4 flex flex-col items-center text-center space-y-3 relative">
+            <!-- Dish Image -->
+            <div class="w-full h-40 bg-white flex items-center justify-center">
+              <img
+                [src]="getFullImageUrl(dish.images?.[0])"
+                alt="{{ dish.name }}"
+                class="max-h-full object-contain"
+                loading="lazy"
+              />
+            </div>
+
+            <h3 class="text-sm font-bold text-gray-800 truncate w-full">{{ dish.name }}</h3>
+
+            <div class="flex justify-between items-center text-xs text-gray-600 w-full">
+              <span class="font-medium">₹{{ dish.price }}</span>
+              <span class="flex items-center text-yellow-500 gap-1">
+                <i class="fas fa-star text-xs"></i> {{ dish.rating || '4.0' }} / 5
+              </span>
+            </div>
+
+            <div class="text-xs font-medium w-full text-left" [ngClass]="dish.available ? 'text-green-600' : 'text-red-500'">
+              {{ dish.available ? 'Available' : 'Not Available' }}
+            </div>
+
+            <div class="flex flex-wrap gap-1 justify-start w-full">
+              <span class="px-2 py-0.5 rounded-full text-white text-[10px]" [ngClass]="dish.vegetarian ? 'bg-green-600' : 'bg-red-600'">
+                {{ dish.vegetarian ? 'VEG' : 'NON-VEG' }}
+              </span>
+              <span *ngIf="dish.seasonal" class="px-2 py-0.5 rounded-full bg-yellow-500 text-white text-[10px]">
+                Seasonal
+              </span>
+            </div>
+
+            <p class="text-xs text-gray-500 line-clamp-2 w-full text-left">{{ dish.description }}</p>
+          <button
+  (click)="addToCart(dish, restaurant); $event.stopPropagation()"
+  [disabled]="!dish.available"
+  class="mt-auto w-full bg-green-600 hover:bg-green-700 text-white text-xs font-medium py-1.5 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+  [title]="!dish.available ? 'This item is currently unavailable' : 'Add to cart'">
+  <i class="fas fa-shopping-cart mr-1"></i> Add to Cart
+</button>
+
+          </div>
+        </div>
+
+        <button (click)="scrollRight(i)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow hover:bg-gray-100"><i class="fas fa-chevron-right text-gray-600"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+
+<!-- Footer stays outside scroll -->
+<app-footer></app-footer>

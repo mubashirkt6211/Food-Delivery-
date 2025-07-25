@@ -1,0 +1,79 @@
+<!-- Include Font Awesome (if not already included) -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /> -->
+
+<div class="p-6 max-w-3xl mx-auto bg-white rounded-2xl shadow-xl">
+  <h2 class="text-3xl font-bold text-center text-orange-600 mb-8">
+    <i class="fas fa-utensils mr-2"></i> Add New Restaurant
+  </h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-8">
+
+    <!-- 🍱 Basic Details -->
+    <div class="bg-gray-50 p-5 rounded-xl shadow-inner space-y-4">
+      <h3 class="text-lg font-semibold text-gray-700 mb-2">
+        <i class="fas fa-info-circle mr-2 text-orange-500"></i> Basic Details
+      </h3>
+
+      <input formControlName="name" placeholder="Restaurant Name"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+
+      <textarea formControlName="description" placeholder="Description" rows="3"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+
+      <input formControlName="cuisineType" placeholder="Cuisine Type (e.g., Indian, Italian)"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+
+      <input formControlName="openingHours" placeholder="Opening Hours (e.g., 10:00 AM - 10:00 PM)"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+
+      <input formControlName="images" placeholder="Image URLs (comma-separated)"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+    </div>
+
+    <!-- ☎️ Contact Information -->
+    <fieldset formGroupName="contactInformation" class="bg-gray-50 p-5 rounded-xl shadow-inner space-y-4">
+      <legend class="text-lg font-semibold text-gray-700 mb-2">
+        <i class="fas fa-phone-alt mr-2 text-orange-500"></i> Contact Information
+      </legend>
+
+      <input formControlName="email" placeholder="Email"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+
+      <input formControlName="mobile" placeholder="Mobile Number"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+
+      <input formControlName="twitter" placeholder="Twitter (optional)"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+
+      <input formControlName="instagram" placeholder="Instagram (optional)"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+    </fieldset>
+
+    <!-- 🏠 Address Section -->
+    <fieldset formGroupName="address" class="bg-gray-50 p-5 rounded-xl shadow-inner space-y-4">
+      <legend class="text-lg font-semibold text-gray-700 mb-2">
+        <i class="fas fa-map-marker-alt mr-2 text-orange-500"></i> Address
+      </legend>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <input formControlName="street" placeholder="Street"
+          class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+
+        <input formControlName="city" placeholder="City"
+          class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+
+        <input formControlName="state" placeholder="State"
+          class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+
+        <input formControlName="zipCode" placeholder="Zip Code"
+          class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+      </div>
+    </fieldset>
+
+    <!-- ✅ Submit -->
+    <button type="submit" [disabled]="form.invalid"
+      class="w-full py-3 bg-orange-500 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+      <i class="fas fa-plus-circle mr-2"></i> Add Restaurant
+    </button>
+  </form>
+</div>
