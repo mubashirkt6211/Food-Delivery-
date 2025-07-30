@@ -17,15 +17,16 @@
 
       <!-- Order Status -->
       <span 
-        class="px-3 py-1 rounded-full text-sm font-medium"
-        [ngClass]="{
-          'bg-yellow-100 text-yellow-800': order.orderStatus === 'PENDING',
-          'bg-green-100 text-green-800': order.orderStatus === 'DELIVERED',
-          'bg-red-100 text-red-800': order.orderStatus === 'CANCELLED'
-        }"
-      >
-        {{ order.orderStatus }}
-      </span>
+  class="inline-block min-w-[100px] text-center px-3 py-1 rounded-full text-sm font-semibold shadow-sm border transition-all duration-200"
+  [ngClass]="{
+    'bg-yellow-100 text-yellow-800 border-yellow-300': order.orderStatus === 'PENDING',
+    'bg-green-100 text-green-800 border-green-300': order.orderStatus === 'DELIVERED',
+    'bg-red-100 text-red-800 border-red-300': order.orderStatus === 'CANCELLED'
+  }"
+>
+  {{ order.orderStatus }}
+</span>
+
     </div>
 
     <!-- Dish Items -->

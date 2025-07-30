@@ -1,49 +1,73 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+// -------- Order Interfaces --------
+export interface Address {
+  street: string;
+  city: string;
+  state: string;
+  zipCode?: number;
+}
+
+export interface Dish {
+  name: string;
+  price: number;
+}
+
+export interface OrderItem {
+  food: Dish;
+  quantity: number;
+}
+
+export interface Order {
+  id: number;
+  orderStatus: string;
+  createdAt: string;
+  totalItem: number;
+  totalPrice: number;
+  totalAmount?: number;
+  items: OrderItem[];
+  deliveryAddress: Address;
+  restaurant?: any;
+  customer?: any;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminOrderService {
+  // 👇 Directly defined API base URL here
   private baseUrl = 'http://localhost:8080/api/admin/order';
 
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders(): HttpHeaders {
-    const token =
-      localStorage.getItem('jwt_token') ||
-      localStorage.getItem('jwt') ||
-      localStorage.getItem('jwtToken');
+    const jwt = localStorage.getItem('jwt');
     return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+      Authorization: jwt ? `Bearer ${jwt}` : '',
     });
   }
 
-  // ✅ Get orders for a specific restaurant
-  getOrdersByRestaurant(restaurantId: number): Observable<any[]> {
-    return this.http
-      .get<any[]>(`${this.baseUrl}/restaurant/${restaurantId}`, {
-        headers: this.getAuthHeaders(),
-      })
-      .pipe(
-        catchError((error) => {
-          console.error('❌ Failed to load orders', error);
-          return throwError(() => error);
-        })
-      );
+  // ✅ Get all restaurant orders (optionally filter by status)
+  getRestaurantOrders(orderStatus?: string): Observable<Order[]> {
+    let params = new HttpParams();
+    if (orderStatus) {
+      params = params.set('order_status', orderStatus);
+    }
+
+    return this.http.get<Order[]>(`${this.baseUrl}/restaurant`, {
+      headers: this.getAuthHeaders(),
+      params,
+    });
   }
 
-  // ✅ Update order status
-  updateOrderStatus(orderId: number, newStatus: string): Observable<any> {
-    return this.http
-      .put(`${this.baseUrl}/${orderId}/${newStatus}`, {}, {
-        headers: this.getAuthHeaders(),
-      })
-      .pipe(
-        catchError((error) => {
-          console.error('❌ Failed to update order status', error);
-          return throwError(() => error);
-        })
-      );
+  // ✅ Update order status (e.g., to DELIVERED, CANCELLED)
+  updateOrderStatus(orderId: number, orderStatus: string): Observable<Order> {
+    return this.http.put<Order>(
+      `${this.baseUrl}/${orderId}/${orderStatus}`,
+      {},
+      { headers: this.getAuthHeaders() }
+    );
   }
 }

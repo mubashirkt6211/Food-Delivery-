@@ -1,12 +1,11 @@
-<section class="px-6 md:px-16 py-16 bg-white font-sans">
-  <div class="grid md:grid-cols-2 gap-12 items-center">
+  <div class="grid md:grid-cols-2 gap-12 items-center bg-white rounded-3xl shadow-2xl p-8 md:p-12">
 
     <!-- Product Image -->
-    <div class="relative">
+    <div class="relative overflow-hidden rounded-2xl shadow-lg group">
       <img
         src="https://i.pinimg.com/736x/b6/13/b3/b613b320c850fcf95002f678ebf2ce13.jpg"
         alt="Cheesy Burger"
-        class="w-full h-auto  object-cover"
+        class="w-full h-auto object-cover transform group-hover:scale-105 transition duration-500"
       />
 
       <!-- Featured Badge -->
@@ -21,22 +20,22 @@
     </div>
 
     <!-- Product Details -->
-    <div class="space-y-6">
-      <h2 class="text-4xl font-extrabold text-gray-900 flex items-center gap-3">
+    <div class="space-y-6 text-center md:text-left">
+      <h2 class="text-4xl font-extrabold text-gray-900 flex justify-center md:justify-start items-center gap-3">
         <i class="fas fa-hamburger text-red-500"></i> Cheesy Burger
       </h2>
 
-      <p class="text-gray-700 text-base leading-relaxed">
-        Savor the flavor! A juicy grilled beef patty with melted cheddar cheese, crisp lettuce, tomatoes, onions, and our signature sauce—crafted to perfection for burger lovers.
+      <p class="text-gray-700 text-base leading-relaxed max-w-xl mx-auto md:mx-0">
+        Savor the flavor! A juicy grilled beef patty with melted cheddar cheese, crisp lettuce, tomatoes, onions, and our signature sauce — crafted to perfection for burger lovers.
       </p>
 
       <!-- Offer Timer Style Tag -->
-      <div class="flex items-center gap-2 text-sm font-semibold text-red-600 bg-red-100 px-4 py-2 rounded-full w-max animate-pulse shadow">
+      <div class="inline-flex items-center gap-2 text-sm font-semibold text-red-600 bg-red-100 px-4 py-2 rounded-full animate-pulse shadow w-max mx-auto md:mx-0">
         <i class="fas fa-clock"></i> Limited Time Offer – Grab it before it's gone!
       </div>
 
       <!-- Tags -->
-      <div class="flex flex-wrap gap-2">
+      <div class="flex flex-wrap justify-center md:justify-start gap-2">
         <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
           <i class="fas fa-fire"></i> Spicy
         </span>
@@ -49,7 +48,7 @@
       </div>
 
       <!-- Pricing -->
-      <div class="flex items-center gap-4">
+      <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 justify-center md:justify-start">
         <span class="text-3xl font-bold text-red-500">₹199</span>
         <span class="text-gray-400 line-through text-lg">₹249</span>
         <span class="text-green-600 text-sm font-semibold">Save ₹50 Today!</span>
@@ -58,10 +57,9 @@
       <!-- Call to Action -->
       <a
         routerLink="/foods"
-        class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition duration-200 text-white px-6 py-3 rounded-xl font-semibold shadow-md flex items-center gap-2"
+        class="inline-flex bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition duration-200 text-white px-6 py-3 rounded-xl font-semibold shadow-lg items-center gap-2 mx-auto md:mx-0"
       >
         <i class="fas fa-arrow-right"></i> Order Now & Save
       </a>
     </div>
   </div>
-</section>

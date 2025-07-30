@@ -23,11 +23,12 @@
       #scrollContainer
       class="category-scroll-container flex gap-4 overflow-x-auto whitespace-nowrap py-4 px-1 scroll-smooth"
     >
-      <div
-        *ngFor="let category of categories"
-        class="min-w-[100px] max-w-[100px] bg-white rounded-xl shadow hover:shadow-lg transition p-3 cursor-pointer border border-gray-100"
-        (click)="selectCategory(category)"
-      >
+     <div
+  *ngFor="let category of categories"
+  class="min-w-[100px] max-w-[100px] bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 hover:scale-105 transition-all duration-300 p-3 cursor-pointer border border-gray-100"
+  (click)="selectCategory(category)"
+>
+
         <img
           [src]="category.icon"
           alt="{{ category.name }}"
